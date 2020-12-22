@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col s6">
+        <div id="USAChart" style="width: 100%;height: 350px;"></div>
+    </div>
+    <div class="col s12">
+        <div id="lineChart" style="width: 100%;height: 350px;"></div>
+    </div>
+</div>
+<script src="/names-bf204/us-central1/names/echarts.min.js"></script>
+<script type="text/javascript">
+    let USAChart = echarts.init(document.getElementById('USAChart'));
+    USAChart.showLoading();
+    echarts.registerMap('USA', <%- mainStates %>);
+    let option = {
+        title: {
+            text: "<%- name %>s in the USA",
+            subtext: "Total <%- name %>'s : <%- total %>",
+        },
+        visualMap: {
+            left: 'right',
+            min: 1,
+            max: 100000,
+            inRange: {
+                color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+            },
+            text: ['High', 'Low'],
+            calculable: true
+        },
+        tooltip: {
+            trigger: 'item',
+            showDelay: 0,
+            transitionDuration: 0.2,
+            formatter: function (params) {
+                return "<%- name %>" + "'s in " + params.name + ': ' + (params.value ? params.value : 0);
+            }
+        },
+        toolbox: {
+            show: false,
+        },
+        series: [
+            {
+                name: 'USA Names',
+                type: 'map',
+                roam: true,
+                map: 'USA',
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                },
+                data: <%- nameData %>
+            }
+        ]
+    };
+
+    USAChart.hideLoading();
+    USAChart.setOption(option);
+
+    let lineChart = echarts.init(document.getElementById('lineChart'));
+    lineChart.showLoading();
+
+    let lineOption = {
+        title: {
+            text: "<%- name %>'s counts in years.",
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['Male', 'Female']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data:  <%- years %>
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                data: <%- maleNameCounts %>,
+                name: 'Male',
+                type: 'line'
+            },
+            {
+                data: <%- femaleNameCounts %>,
+                name: 'Female',
+                type: 'line'
+            }]
+    };
+
+    lineChart.hideLoading();
+    lineChart.setOption(lineOption);
+</script>

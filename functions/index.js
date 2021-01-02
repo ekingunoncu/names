@@ -5,7 +5,7 @@ const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const usaData = require('./usa.js');
 const db = new sqlite3.Database('./names.db');
-
+const NAME_COUNT = 355149899;
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
@@ -14,18 +14,24 @@ app.get('/health', ((req, res) => {
     res.send("I am alive.")
 }));
 
-app.get('/', ((req, res) => {
+app.get('/', (async (req, res) => {
+    let bgText = await getRandomNames(2000);
     res.render("index", {
         hasResult: false,
+        bgText,
         title: "Search the uniqueness of your name!",
         meta: "Find out that how unique a name in the USA!",
-        search_input_classes : "row container valign-wrapper center-align h-100",
+        search_input_classes: "row container valign-wrapper center-align h-100",
     });
 }));
 
 app.post('/search', async (req, res) => {
+    let bgText = await getRandomNames(2000);
     let maleNames = await getNationalNames(req.body.search, 'M');
     let femaleNames = await getNationalNames(req.body.search, 'F');
+    if(maleNames.length === 0 && femaleNames.length === 0){
+
+    }
     let stateNames = await getStateNames(req.body.search);
     let preparedStateNames = await prepareStateNames(stateNames);
     let countObject = await getNameCounts(maleNames, femaleNames);
@@ -41,27 +47,14 @@ app.post('/search', async (req, res) => {
         femaleNameCounts: JSON.stringify(countObject.femaleNameCounts),
         mainStates: JSON.stringify(usaData.mainStates),
         stateNames,
-        search_input_classes : "row container"
+        bgText,
+        all: NAME_COUNT,
+        search_input_classes: "row container"
     });
 });
 
-app.use(function(req, res, next){
-    res.status(404);
+app.use(function (req, res, next) {
 
-    // respond with html page
-    if (req.accepts('html')) {
-        res.render('404', { url: req.url });
-        return;
-    }
-
-    // respond with json
-    if (req.accepts('json')) {
-        res.send({ error: 'Not found' });
-        return;
-    }
-
-    // default to plain-text. send()
-    res.type('txt').send('Not found');
 });
 
 const getNationalNames = async (name, gender) => {
@@ -122,7 +115,7 @@ const getNameCounts = (maleNames, femaleNames) => {
                     isMaleName = true;
                 }
             });
-            if(!isMaleName){
+            if (!isMaleName) {
                 maleNameCounts.push(0);
             }
             femaleNames.forEach((femaleNameObj) => {
@@ -131,7 +124,7 @@ const getNameCounts = (maleNames, femaleNames) => {
                     isFemaleName = true;
                 }
             });
-            if(!isFemaleName){
+            if (!isFemaleName) {
                 femaleNameCounts.push(0);
             }
             years.push(step);
@@ -143,6 +136,40 @@ const getNameCounts = (maleNames, femaleNames) => {
         }
     });
 }
+
+const getRandomNames = async (count) => {
+    return new Promise((resolve, reject) => {
+        let sql =  "SELECT * FROM national_names WHERE id IN (SELECT id FROM national_names ORDER BY RANDOM() LIMIT " + count + ")";
+        db.all(sql, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                let nameObjProcessed = 0;
+                let bgText = "";
+                rows.forEach((nameObj, index, array) => {
+                    bgText = bgText + " " + nameObj.Name
+                    nameObjProcessed++
+                    if (nameObjProcessed === array.length) {
+                        resolve(bgText);
+                    }
+                });
+            }
+        });
+    });
+}
+
+/*const getTotalNameCount = async () => {
+    return new Promise((resolve, reject) => {
+        let sql = "SELECT SUM(Count) from national_names";
+        db.all(sql, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+}*/
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

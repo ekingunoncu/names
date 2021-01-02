@@ -8,8 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <meta name="description" content= <%- meta %> >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .bgtext {
+            position: relative;
+        }
+
+        .bgtext:after {
+            content: "<%- bgText %>";
+            position: absolute;
+            color: rgb(187, 182, 182);
+            top: 0;
+            left: 0;
+            z-index: -1;
+            <% if (hasResult) { %>
+            <%- "filter: blur(2px);" %>
+            <% } else {%>
+            <%- "filter: blur(0.5px);" %>
+            <% }%>
+        }
+    </style>
 </head>
-<body>
+<body class="bgtext flow-text">
 <%- include('search') %>
 <% if (hasResult) { %>
     <%- include('result') %>

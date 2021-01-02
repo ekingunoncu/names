@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.search-button{
+    margin-top: 25px;
+    background-color: rgb(49, 54, 149) !important;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.h-100{
+    height: 100%;
+}

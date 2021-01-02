@@ -1,5 +1,11 @@
 <div class="row">
-    <div class="col s6">
+    <div class="col s4 valign-wrapper center-align" style="height: 350px">
+        <ul class="center">
+            <li> All <%- name %>'s : <b><%- total %></b></li>
+            <li> All other names : <b><%- all - total %></b></li>
+        </ul>
+    </div>
+    <div class="col s8">
         <div id="USAChart" style="width: 100%;height: 350px;"></div>
     </div>
     <div class="col s12">
@@ -61,7 +67,7 @@
 
     let lineOption = {
         title: {
-            text: "<%- name %>'s counts in years.",
+            text: "<%- name %>'s in years.",
         },
         tooltip: {
             trigger: 'axis'

@@ -1,13 +1,16 @@
-const functions = require('firebase-functions');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const usaData = require('./usa.js');
 const db = new sqlite3.Database('./names.db');
+const port = 3000;
 const NAME_COUNT = 355149899;
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/health', ((req, res) => {
@@ -171,6 +174,6 @@ const getRandomNames = async (count) => {
     });
 }*/
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-exports.names = functions.https.onRequest(app);
+app.listen(port, () => {
+    console.log(`App listening at http://localhost:${port}`)
+})

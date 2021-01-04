@@ -28,21 +28,21 @@ app.get('/', (async (req, res) => {
     });
 }));
 
-app.post('/search', async (req, res) => {
+app.get('/search', async (req, res) => {
     let bgText = await getRandomNames(2000);
-    let maleNames = await getNationalNames(req.body.search, 'M');
-    let femaleNames = await getNationalNames(req.body.search, 'F');
+    let maleNames = await getNationalNames(req.query.search, 'M');
+    let femaleNames = await getNationalNames(req.query.search, 'F');
     if(maleNames.length === 0 && femaleNames.length === 0){
 
     }
-    let stateNames = await getStateNames(req.body.search);
+    let stateNames = await getStateNames(req.query.search);
     let preparedStateNames = await prepareStateNames(stateNames);
     let countObject = await getNameCounts(maleNames, femaleNames);
     res.render("index", {
-        title: "Uniqueness of " + req.body.search + " in USA!",
-        meta: "Find out that how unique " + req.body.search + " in the USA!, Uniqueness of " + req.body.search + " in USA!",
+        title: "Uniqueness of " + req.query.search + " in USA!",
+        meta: "Find out that how unique " + req.query.search + " in the USA!, Uniqueness of " + req.query.search + " in USA!",
         nameData: JSON.stringify(preparedStateNames.nameData),
-        name: req.body.search,
+        name: req.query.search,
         hasResult: true,
         total: preparedStateNames.total,
         years: JSON.stringify(countObject.years),
@@ -56,9 +56,6 @@ app.post('/search', async (req, res) => {
     });
 });
 
-app.use(function (req, res, next) {
-
-});
 
 const getNationalNames = async (name, gender) => {
     return new Promise((resolve, reject) => {

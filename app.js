@@ -18,18 +18,21 @@ app.get('/health', ((req, res) => {
 }));
 
 app.get('/', (async (req, res) => {
-    let bgText = await getRandomNames(2000);
+   // let bgText = await getRandomNames(2000);
     res.render("index", {
         hasResult: false,
         bgText,
         title: "Search the uniqueness of your name!",
         meta: "Find out that how unique a name in the USA!",
-        search_input_classes: "row container valign-wrapper center-align h-100",
+        body_classes: "overflow-hidden",
+        search_input_classes: "mt-40 search-input",
+        search_button_classes: "search-button",
+        footer_classes: "footer"
     });
 }));
 
 app.get('/search', async (req, res) => {
-    let bgText = await getRandomNames(2000);
+    //let bgText = await getRandomNames(2000);
     let maleNames = await getNationalNames(req.query.search, 'M');
     let femaleNames = await getNationalNames(req.query.search, 'F');
     if(maleNames.length === 0 && femaleNames.length === 0){
@@ -52,7 +55,10 @@ app.get('/search', async (req, res) => {
         stateNames,
         bgText,
         all: NAME_COUNT,
-        search_input_classes: "row container"
+        body_classes: "overflow-unhidden",
+        search_input_classes: "search-top-input",
+        search_button_classes: "search-top-button",
+        footer_classes: "footer-notfixed"
     });
 });
 

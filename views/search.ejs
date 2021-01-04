@@ -1,13 +1,6 @@
-<div id="search-area" class="<%- search_input_classes %>">
-    <form class="col s12" action="/search" method="GET">
-        <div class="row">
-            <div class="input-field col s10">
-                <i class="material-icons prefix">search</i>
-                <textarea id="search" class="materialize-textarea" name="search"></textarea>
-            </div>
-            <div class="col s2">
-                <button class="waves-effect waves-light btn search-button" type="submit">SEARCH</button>
-            </div>
-        </div>
+<div id="search-area">
+    <form action="/search" method="GET" class="search-form-start">
+        <input id="search" name="search" class="<%- search_input_classes %>" placeholder="Search...">
+        <button class="<%- search_button_classes %>" type="submit"><img src="/search.svg"></button>
     </form>
 </div>

@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title><%- title %></title>
     <link href="/style.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <meta name="description" content= <%- meta %> >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -13,7 +12,7 @@
             position: relative;
         }
 
-        .bgtext:after {
+        .bgtext:before {
             content: "<%- bgText %>";
             position: absolute;
             color: rgb(187, 182, 182);
@@ -29,10 +28,18 @@
     </style>
     <script data-ad-client="ca-pub-1015859928690519" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
-<body class="bgtext flow-text">
+<!-- body yapılır class="bgtext flow-text -->
+<body class="<%- body_classes %>">
+<%- include('top_bar') %>
+<% if (!hasResult) { %>
+<div class="logo"><img src="/logo.png">
+<h1>Looking for a baby name that's uncommon and unique?</h1>
+</div>
+<div class="family"><img src="/family.png"></div>
 <%- include('search') %>
-<% if (hasResult) { %>
-    <%- include('result') %>
+<% } else { %>
+<%- include('result') %>
 <% } %>
+<%- include('footer') %>
 </body>
 </html>

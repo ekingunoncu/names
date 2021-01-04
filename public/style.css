@@ -1,11 +1,41 @@
+@font-face {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
 html, body {
     height: 100%;
+    margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background-color: #ebf3fa;
+}
+
+.overflow-hidden {
     overflow-y: hidden;
+}
+.overflow-unhidden {
+    overflow-y: unset;
+}
+
+h1 {
+    color: #696969;
+    font-size: 24px;
 }
 
 .search-button{
-    margin-top: 25px;
-    background-color: rgb(49, 54, 149) !important;
+    position: absolute;
+    background: none;
+    right: 20px;
+    bottom: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-button:focus, .search-button:active {
+    outline: 0;
+}
+
+.search-button img {
+    width: 30px;
 }
 
 .center {
@@ -16,4 +46,232 @@ html, body {
 
 .h-100{
     height: 100%;
+}
+
+.top-bar {
+    min-height: 52px;
+    background-color: #1f2849;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.space-flex {
+    justify-content: space-between;
+}
+
+.top-bar-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.logo {
+    margin: 8% auto auto auto;
+    text-align: center;
+}
+
+.logo img {
+    max-width: 823px;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 60px 14px 20px;
+    border-radius: 40px;
+    border: 4px solid #e8e8e873;
+    font-size: 24px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 700;
+    color: #2b478b;
+}
+
+.search-top-input {
+    position: relative;
+    width: 100%;
+    padding: 0px 60px 0px 20px;
+    border-radius: 40px;
+    border: 2px solid #e8e8e873;
+    font-size: 24px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 700;
+    color: #2b478b;
+    transition: all 250ms linear;
+}
+
+.search-input::placeholder {
+    color: #2b478b;
+}
+
+.search-input:focus, .search-input:active {
+    outline: none;
+}
+
+.search-top-input:focus, .search-top-input:hover, .search-top-input:active {
+    outline: 0;
+    padding: 14px 60px 14px 20px;
+    margin: 5px 0;
+}
+
+.search-top-input:focus ~ .search-top-button, .search-top-input:hover ~ .search-top-button, .search-top-input:active ~ .search-top-button {
+    bottom: 20px;
+}
+
+.search-top-button{
+    position: absolute;
+    background: none;
+    right: 10px;
+    bottom: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms linear;
+}
+
+.search-top-button:focus, .search-top-button:active {
+    outline: 0;
+}
+
+.search-top-button img {
+    width: 24px;
+}
+
+.search-form-start {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    max-width: 767px;
+    margin: 0 auto;
+}
+
+.top-bar-menu {
+    text-transform: uppercase;
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.top-bar-menu:hover {
+    text-decoration: underline;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #1f2849;
+    max-height: 100px;
+    height: 100%;
+}
+
+.footer-notfixed {
+    width: 100%;
+    background-color: #1f2849;
+    max-height: 100px;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.family {
+    position: fixed;
+    bottom: 92px;
+    width: 100%;
+    text-align: center;
+}
+
+.family img {
+    width: 100%;
+    max-width: 946px;
+}
+
+.area1 {
+    background: url("/flag.jpg");
+    background-size: cover;
+    grid-area: flag;
+}
+.area2 { grid-area: result; }
+.area3 { grid-area: ads; }
+.area4 { grid-area: map; }
+.area5 { grid-area: analytics; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'flag flag result result result'
+    'map map map ads ads'
+    'map map map ads ads'
+    'analytics analytics analytics analytics analytics';
+    grid-gap: 10px;
+    margin-top: 10px;
+}
+
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+    border-radius: 4px;
+}
+
+.result-names {
+    display: flex;
+    text-decoration: none;
+    list-style: none;
+    justify-content: space-around;
+    font-size: 24px;
+    color: #696969;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.result-names li {
+    display: flex;
+}
+
+.seperator {
+    height: 70px;
+    width: 1px;
+    background-color: #6969693b;
+}
+
+@media screen and (max-width:700px) {
+    .grid-container {
+        display: grid;
+        grid-template-areas:
+        'flag'
+    'result'
+    'map'
+    'ads'
+    'analytics';
+        grid-gap: 10px;
+        margin-top: 10px;
+    }
+    .search-top-input {
+        width: 200px;
+    }
+    .result-names li {
+        word-break: break-word;
+        font-size: 16px;
+    }
+    .area1 {
+        height: 50px;
+        width: 100px;
+        margin: 0 auto;
+    }
 }

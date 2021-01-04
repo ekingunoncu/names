@@ -21,7 +21,7 @@ app.get('/', (async (req, res) => {
    // let bgText = await getRandomNames(2000);
     res.render("index", {
         hasResult: false,
-        bgText,
+     //   bgText,
         title: "Search the uniqueness of your name!",
         meta: "Find out that how unique a name in the USA!",
         body_classes: "overflow-hidden",
@@ -53,7 +53,7 @@ app.get('/search', async (req, res) => {
         femaleNameCounts: JSON.stringify(countObject.femaleNameCounts),
         mainStates: JSON.stringify(usaData.mainStates),
         stateNames,
-        bgText,
+      //  bgText,
         all: NAME_COUNT,
         body_classes: "overflow-unhidden",
         search_input_classes: "search-top-input",

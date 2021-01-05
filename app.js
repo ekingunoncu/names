@@ -52,6 +52,20 @@ app.get('/search', async (req, res) => {
         });
     }
     let stateNames = await getStateNames(req.query.search);
+    if (stateNames.length === 0) {
+        res.render("index", {
+            hasResult: false,
+            //   bgText,
+            title: "Search the uniqueness of your name!",
+            meta: "Find out that how unique a name in the USA!",
+            body_classes: "overflow-hidden",
+            search_input_classes: "mt-40 search-input",
+            search_button_classes: "search-button",
+            footer_classes: "footer",
+            notFound: true,
+            name: req.query.search
+        });
+    }
     let preparedStateNames = await prepareStateNames(stateNames);
     let countObject = await getNameCounts(maleNames, femaleNames);
     res.render("index", {

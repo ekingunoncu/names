@@ -191,6 +191,21 @@ const getRandomNames = async (count) => {
     });
 }
 
+const getRandomRows = async (count) => {
+    return new Promise((resolve, reject) => {
+        let sql = "SELECT * FROM national_names WHERE id IN (SELECT id FROM national_names ORDER BY RANDOM() LIMIT " + count + ")";
+        db.all(sql, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                let nameObjProcessed = 0;
+                let bgText = "";
+                resolve(rows);
+            }
+        });
+    });
+}
+
 /*const getTotalNameCount = async () => {
     return new Promise((resolve, reject) => {
         let sql = "SELECT SUM(Count) from national_names";
@@ -203,6 +218,17 @@ const getRandomNames = async (count) => {
         });
     });
 }*/
+
+(async function () {
+    let names = await getRandomRows(50000);
+    names.forEach((name)=>{
+        console.log(
+            "<url>\n" +
+            "  <loc>https://uniquenames.org/search?search=" + name.Name + "</loc>\n" +
+            "  <lastmod>2021-01-09T13:08:45+00:00</lastmod>\n" +
+            "</url>");
+    });
+})();
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)

@@ -14,12 +14,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/health', ((req, res) => {
-    res.send("I am alive.")
+    return res.send("I am alive.")
 }));
 
 app.get('/', (async (req, res) => {
     let bgText = await getRandomNamesAsHref(150);
-    res.render("index", {
+    return res.render("index", {
         hasResult: false,
         bgText,
         title: "Search the uniqueness of your name!",
@@ -38,11 +38,12 @@ app.get('/search', async (req, res) => {
     let maleNames = await getNationalNames(req.query.search, 'M');
     let femaleNames = await getNationalNames(req.query.search, 'F');
     if (maleNames.length === 0 && femaleNames.length === 0) {
-        res.render("index", {
+        return res.render("index", {
             hasResult: false,
             title: "Search the uniqueness of your name!",
             meta: "Find out that how unique a name in the USA!",
             body_classes: "overflow-hidden",
+            bgText,
             search_input_classes: "mt-40 search-input",
             search_button_classes: "search-button",
             footer_classes: "footer",
@@ -52,7 +53,7 @@ app.get('/search', async (req, res) => {
     }
     let stateNames = await getStateNames(req.query.search);
     if (stateNames.length === 0) {
-        res.render("index", {
+        return res.render("index", {
             hasResult: false,
             bgText,
             title: "Search the uniqueness of your name!",
@@ -67,7 +68,7 @@ app.get('/search', async (req, res) => {
     }
     let preparedStateNames = await prepareStateNames(stateNames);
     let countObject = await getNameCounts(maleNames, femaleNames);
-    res.render("index", {
+    return res.render("index", {
         title: "Uniqueness of " + req.query.search + " in USA!",
         meta: "Find out that how unique " + req.query.search + " in the USA!, Uniqueness of " + req.query.search + " in USA!",
         nameData: JSON.stringify(preparedStateNames.nameData),

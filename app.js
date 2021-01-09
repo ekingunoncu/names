@@ -208,7 +208,7 @@ const getRandomNamesAsHref = async (count) => {
 
 const getRandomRows = async (count) => {
     return new Promise((resolve, reject) => {
-        let sql = "SELECT * FROM national_names WHERE id IN (SELECT id FROM national_names ORDER BY RANDOM() LIMIT " + count + ")";
+        let sql = "SELECT * FROM state_names WHERE id IN (SELECT id FROM state_names ORDER BY RANDOM() LIMIT " + count + ")";
         db.all(sql, (err, rows) => {
             if (err) {
                 reject(err);

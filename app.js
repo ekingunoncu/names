@@ -18,10 +18,10 @@ app.get('/health', ((req, res) => {
 }));
 
 app.get('/', (async (req, res) => {
-    // let bgText = await getRandomNames(2000);
+    let bgText = await getRandomNamesAsHref(150);
     res.render("index", {
         hasResult: false,
-        //   bgText,
+        bgText,
         title: "Search the uniqueness of your name!",
         meta: "Find out that how unique a name in the USA!",
         body_classes: "overflow-hidden",
@@ -34,13 +34,12 @@ app.get('/', (async (req, res) => {
 }));
 
 app.get('/search', async (req, res) => {
-    //let bgText = await getRandomNames(2000);
+    let bgText = await getRandomNamesAsHref(150);
     let maleNames = await getNationalNames(req.query.search, 'M');
     let femaleNames = await getNationalNames(req.query.search, 'F');
     if (maleNames.length === 0 && femaleNames.length === 0) {
         res.render("index", {
             hasResult: false,
-            //   bgText,
             title: "Search the uniqueness of your name!",
             meta: "Find out that how unique a name in the USA!",
             body_classes: "overflow-hidden",
@@ -55,7 +54,7 @@ app.get('/search', async (req, res) => {
     if (stateNames.length === 0) {
         res.render("index", {
             hasResult: false,
-            //   bgText,
+            bgText,
             title: "Search the uniqueness of your name!",
             meta: "Find out that how unique a name in the USA!",
             body_classes: "overflow-hidden",
@@ -80,7 +79,7 @@ app.get('/search', async (req, res) => {
         femaleNameCounts: JSON.stringify(countObject.femaleNameCounts),
         mainStates: JSON.stringify(usaData.mainStates),
         stateNames,
-        //  bgText,
+        bgText,
         all: NAME_COUNT,
         body_classes: "overflow-unhidden",
         search_input_classes: "search-top-input",
@@ -191,6 +190,21 @@ const getRandomNames = async (count) => {
     });
 }
 
+const getRandomNamesAsHref = async (count) => {
+    return new Promise(async (resolve, reject) => {
+       let names = await getRandomRows(count);
+       let namesHrefs = "";
+       let nameObjProcessed = 0;
+       names.forEach((name, index, array)=>{
+           namesHrefs = "<a class='name-uniqueness-search-url' href=/search?search=" + name.Name + ">" + name.Name + "</a>" + namesHrefs;
+           nameObjProcessed++
+           if (nameObjProcessed === array.length) {
+               resolve(namesHrefs);
+           }
+       });
+    });
+}
+
 const getRandomRows = async (count) => {
     return new Promise((resolve, reject) => {
         let sql = "SELECT * FROM national_names WHERE id IN (SELECT id FROM national_names ORDER BY RANDOM() LIMIT " + count + ")";
@@ -219,7 +233,7 @@ const getRandomRows = async (count) => {
     });
 }*/
 
-(async function () {
+/*(async function () {
     let names = await getRandomRows(50000);
     names.forEach((name)=>{
         console.log(
@@ -228,7 +242,7 @@ const getRandomRows = async (count) => {
             "  <lastmod>2021-01-09T13:08:45+00:00</lastmod>\n" +
             "</url>");
     });
-})();
+})();*/
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
